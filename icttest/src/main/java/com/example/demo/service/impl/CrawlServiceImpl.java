@@ -43,7 +43,7 @@ public class CrawlServiceImpl implements CrawlService {
 			System.out.println(aElement);
 			//System.out.println(aElement.select("a").attr("href"));
 			System.out.println("--------------");
-		}*/
+		}		경로 점검 하기 위함		*/
 		
 		
 		Elements ulElements = doc.select(pSelector);
