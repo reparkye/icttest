@@ -38,38 +38,40 @@ public class CrawlServiceImpl implements CrawlService {
 	@Override
 	public List<DaumNews> getDaumList() throws IOException {
 		Document doc = Jsoup.connect(targetUrl).get();
-		Elements newsElements = doc.select("ul.list_mainnews>li");
+		/*Elements newsElements = doc.select("ul.list_mainnews>li");
 		for(Element aElement : newsElements) {
 			System.out.println(aElement);
 			//System.out.println(aElement.select("a").attr("href"));
 			System.out.println("--------------");
-		}
-//		Elements ulElements = doc.select(pSelector);
-//		Elements aElements = ulElements.select(dtSelector);
-//		List<DaumNews> nitnList = new ArrayList<DaumNews>();
-//		for(Element aElement : aElements) {
-//			String uri = aElement.attr("href");
-//			int sIdx = uri.indexOf("aid=");
-//			String aid = uri.substring(sIdx) + "&abc";
-//			if(aid.indexOf("&")!=1) {
-//				aid = aid.substring(0,aid.indexOf("&"));
-//			}
-//			aid = aid.replace("aid=", "");
-//			
-//			if(dnRepo.findByAid(aid).size()!=0) {
-//				continue;
-//			}
-//			
-//			String tittle = aElement.text();
-//			DaumNews nitn = new DaumNews();
-//			nitn.setAid(aid);
-//			nitn.setUri(uri);
-//			nitn.setTittle(tittle);
-//			nitnList.add(nitn);
-//		}
+		}*/
 		
-//		return dnRepo.saveAll(nitnList);
-		return null;
+		
+		Elements ulElements = doc.select(pSelector);
+		Elements aElements = ulElements.select(dtSelector);
+		List<DaumNews> nitnList = new ArrayList<DaumNews>();
+		for(Element aElement : aElements) {
+			String uri = aElement.attr("href");
+			int sIdx = uri.indexOf("aid=");
+			String aid = uri.substring(sIdx) + "&abc";
+			if(aid.indexOf("&")!=1) {
+				aid = aid.substring(0,aid.indexOf("&"));
+			}
+			aid = aid.replace("aid=", "");
+			
+			if(dnRepo.findByAid(aid).size()!=0) {
+				continue;
+			}
+			
+			String tittle = aElement.text();
+			DaumNews nitn = new DaumNews();
+			nitn.setAid(aid);
+			nitn.setUri(uri);
+			nitn.setTittle(tittle);
+			nitnList.add(nitn);
+		}
+		
+		return dnRepo.saveAll(nitnList);
+		
 	}
 
 }
